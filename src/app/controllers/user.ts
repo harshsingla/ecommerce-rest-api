@@ -132,4 +132,8 @@ let userCtrl = {
         });
     }))
 }
+<<<<<<< HEAD
 export default userCtrl;
+=======
+export default userCtrl;
+>>>>>>> 437df69db2b7b999b4b80fd63b9a72bad2777cf8
