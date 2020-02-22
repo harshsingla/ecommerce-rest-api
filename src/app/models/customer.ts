@@ -5,9 +5,7 @@ import { UserGroup } from './userGroup'
 enum Gender {
     Male, Female
 }
-enum Usertype {
-    'superAdmin', 'admin', 'user'
-}
+
 type comparePasswordFunction = (candidatePassword: string) => Promise<any>;
 const comparePassword: comparePasswordFunction = function (candidatePassword) {
 
@@ -20,18 +18,24 @@ const comparePassword: comparePasswordFunction = function (candidatePassword) {
     }));
 
 };
-export type UserDocument = mongoose.Document & {
+export type CustomerDocument = mongoose.Document & {
     firstName: string;
     lastName: string;
     email: string;
     mobile: string;
-    userType: Usertype;
     password: string;
+    userType: string;
     comparePassword: comparePasswordFunction;
     allowNotification: boolean;
     gender: Gender;
     avatar: string;
-    userGroup: string;
+    countryId: string;
+    zoneId: string;
+    oauthData: string;
+    customerGroupId: string;
+    lastLogin: string;
+    safe: number;
+    ip: number;
     address: {
         street: string;
         city: string;
@@ -40,7 +44,7 @@ export type UserDocument = mongoose.Document & {
     };
 }
 
-const userSchema = new mongoose.Schema({
+const customerSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
     email: { type: String, required: true, unique: true },
@@ -56,18 +60,23 @@ const userSchema = new mongoose.Schema({
         state: String,
         pincode: String,
     },
-    userGroup: { type: String, ref: "userGroup" },
-
+    countryId: { type: String, ref: "country" },
+    zoneId: { type: String, ref: "zone" },
+    oauthData: String,
+    lastLogin: String,
+    safe: Number,
+    ip: String,
+    customerGroupId: { type: String, ref: "userGroup" },
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });
 
-userSchema.pre("save", function save(next) {
-    const user = this as UserDocument;
-
+customerSchema.pre("save", function save(next) {
+    const user = this as CustomerDocument;
     if (!user.isModified("password")) {
         return next();
     }
+
     bcrypt.genSalt(10, (err, salt) => {
         if (err) {
             return next(err);
@@ -81,7 +90,7 @@ userSchema.pre("save", function save(next) {
         });
     });
 });
-userSchema.methods.comparePassword = comparePassword;
+customerSchema.methods.comparePassword = comparePassword;
 
-userSchema.plugin(mongoose_delete, { overrideMethods: ['count', 'find', 'countDocuments'] })
-export const User = mongoose.model<UserDocument>("User", userSchema);
+customerSchema.plugin(mongoose_delete, { overrideMethods: ['count', 'find', 'countDocuments'] })
+export const Customer = mongoose.model<CustomerDocument>("customer", customerSchema);

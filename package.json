@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/helmet": "0.0.45",
     "@types/lodash": "^4.14.149",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5",
@@ -42,6 +43,7 @@
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
+    "helmet": "^3.21.2",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.11",

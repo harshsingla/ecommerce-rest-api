@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { UserGroup, UserGroupDocument } from "../models/userGroup";
 import { errorObj, successObj, secret, ErrorObj, SuccessObj } from "../../config/settings";
 import _ from "lodash";
-import console from "../../utils/logger";
+import console from "../../utils/timestamps";
 
 let userCtrl = {
     add: (data: any) => {

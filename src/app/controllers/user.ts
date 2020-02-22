@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import { User, UserDocument } from "../models/User";
+import { User, UserDocument } from "../models/user";
 import { errorObj, successObj, secret, ErrorObj, SuccessObj } from "../../config/settings";
 import _ from "lodash";
-import console from "../../utils/logger";
+import console from "../../utils/timestamps";
 
 let userCtrl = {
     add: (data: any) => {
@@ -38,9 +38,10 @@ let userCtrl = {
             })
         });
     },
-    getById: (data: any) => {
+    getById: (id: any) => {
+        console.log(id)
         return new Promise(async (resolve) => {
-            User.findOne({ ...data }, async (err: object, doc: UserDocument) => {
+            User.findOne({id:id}, async (err: object, doc: UserDocument) => {
                 if (err || !doc) {
                     return resolve({ ...errorObj, message: "user not found" });
                 }
@@ -58,10 +59,10 @@ let userCtrl = {
             })
         });
     },
-    delete: (ids: string[])=> {
+    delete: (id: string)=> {
         return new Promise((resolve) => {
             //@ts-ignore
-            User.delete({ _id: { $in: ids } })
+            User.delete({ _id: id })
                 .exec((err: any, data: any) => {
                     if (err || !data) {
                         return resolve({ ...errorObj, message: "unable to delete", err });
@@ -106,7 +107,7 @@ let userCtrl = {
                     _id: user._id,
                     email: user.email,
                     userType: user.userType,
-                    name: user.name,
+                    name: user.firstName+user.lastName,
                     mobile: user.mobile
 
                 },
@@ -122,7 +123,7 @@ let userCtrl = {
                         _id: user._id,
                         email: user.email,
                         userType: user.userType,
-                        name: user.name,
+                        name: user.firstName+user.lastName,
                         mobile: user.mobile
                     },
                 });
@@ -132,8 +133,4 @@ let userCtrl = {
         });
     }))
 }
-<<<<<<< HEAD
 export default userCtrl;
-=======
-export default userCtrl;
->>>>>>> 437df69db2b7b999b4b80fd63b9a72bad2777cf8

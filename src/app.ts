@@ -4,12 +4,13 @@ import bodyParser from "body-parser";
 import path from 'path';
 import { MONGODB_URI, SESSION_SECRET } from "./utils/secrets";
 import cors from "cors";
-import userRoutes from "./app/routes/user";
+import userRoutes from "./app/authRoutes/user";
 // import morgan from "morgan";
 import checkToken from './utils/checkToken'
 import YAML from "yamljs";
 import swaggerUi from "swagger-ui-express";
 import mongoose from "mongoose";
+import helmet from 'helmet'
 // Controllers (route handlers)
 // import {config} from './config/settings'
 
@@ -38,6 +39,10 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
     console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
     // process.exit();
 });
+
+//
+app.use(helmet())
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
