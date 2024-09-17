@@ -6,7 +6,7 @@ server.listen(app.get("port"), () => {
     console.log(app.get("port"), " teting");
  
     console.log(
-        "App is running at http://localhost:%d in %s mode",
+        "App is running at http://localhost:%d in %s mode please check",
         app.get("port"),
         app.get("env")
     );
